@@ -2,36 +2,67 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Socket Server</title>
-
+		<title>MiniChat</title>
 		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
 			rel="stylesheet"
-			href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
-			integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK"
+			integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
 			crossorigin="anonymous"
 		/>
 	</head>
 	<body class="container">
-		<h1 class="mt-5">Acceso denegado</h1>
+		<h1 class="mt-5">MiniChat</h1>
 		<hr />
 
+		<form id="myForm">
+			<div class="row">
+				<div class="col-8">
+					<input type="text" id="txtMsg" placeholder="Message" class="form-control" />
+				</div>
+
+				<div class="col-4">
+					<button type="submit" class="btn btn-primary">Send</button>
+				</div>
+			</div>
+		</form>
+
+		<div class="row">
+			<div class="col">
+				<ul id="myMessages" class="mt-2"></ul>
+			</div>
+		</div>
+
 		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.1/socket.io.js"
-			integrity="sha512-vGcPDqyonHb0c11UofnOKdSAt5zYRpKI4ow+v6hat4i96b7nHSn8PQyk0sT5L9RECyksp+SztCPP6bqeeGaRKg=="
+			src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.3/socket.io.js"
+			integrity="sha512-iWPnCISAd/J+ZacwV2mbNLCaPGRrRo5OS81lKTVPtRg1wGTC20Cfmp5Us5RcbLv42QLdbAWl0MI57yox5VecQg=="
 			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
 		></script>
 
 		<script>
-			// Conexión con el socket server
 			const socket = io("http://localhost:8080");
 
-			/// Para emitir
-			// socket.emit('message-to-server', { data });
+			// DOM elements references
+			const form = document.querySelector("#myForm");
+			const messages = document.querySelector("#myMessages");
+			const txtMessage = document.querySelector("#txtMsg");
 
-			// Para escuchar
+			form.addEventListener("submit", (e) => {
+				e.preventDefault();
+
+				const newMessage = txtMessage.value;
+
+				socket.emit("message-to-server", {
+					text: newMessage,
+				});
+
+				txtMessage.value = "";
+			});
+
 			socket.on("message-from-server", (data) => {
-				// callback a ejecutar
+				messages.innerHTML += `<li>${data.text}</li>`;
 			});
 		</script>
 	</body>

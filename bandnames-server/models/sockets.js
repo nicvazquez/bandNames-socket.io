@@ -8,10 +8,9 @@ class Sockets {
 	socketEvents() {
 		// On connection
 		this.io.on("connection", (socket) => {
-			// Escuchar evento: message-to-server
+			// Listen event: message-to-server
 			socket.on("message-to-server", (data) => {
 				console.log(data);
-
 				this.io.emit("message-from-server", data);
 			});
 		});
