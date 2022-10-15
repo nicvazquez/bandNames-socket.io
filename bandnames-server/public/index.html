@@ -13,26 +13,7 @@
 		/>
 	</head>
 	<body class="container">
-		<h1 class="mt-5">MiniChat</h1>
-		<hr />
-
-		<form id="myForm">
-			<div class="row">
-				<div class="col-8">
-					<input type="text" id="txtMsg" placeholder="Message" class="form-control" />
-				</div>
-
-				<div class="col-4">
-					<button type="submit" class="btn btn-primary">Send</button>
-				</div>
-			</div>
-		</form>
-
-		<div class="row">
-			<div class="col">
-				<ul id="myMessages" class="mt-2"></ul>
-			</div>
-		</div>
+		<h1>Denied Access</h1>
 
 		<script
 			src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.3/socket.io.js"
@@ -44,25 +25,8 @@
 		<script>
 			const socket = io("http://localhost:8080");
 
-			// DOM elements references
-			const form = document.querySelector("#myForm");
-			const messages = document.querySelector("#myMessages");
-			const txtMessage = document.querySelector("#txtMsg");
-
-			form.addEventListener("submit", (e) => {
-				e.preventDefault();
-
-				const newMessage = txtMessage.value;
-
-				socket.emit("message-to-server", {
-					text: newMessage,
-				});
-
-				txtMessage.value = "";
-			});
-
-			socket.on("message-from-server", (data) => {
-				messages.innerHTML += `<li>${data.text}</li>`;
+			socket.on("current-bands", (bands) => {
+				console.log(bands);
 			});
 		</script>
 	</body>

@@ -1,6 +1,10 @@
+const BandList = require("./band-list");
+
 class Sockets {
 	constructor(io) {
 		this.io = io;
+
+		this.bandList = new BandList();
 
 		this.socketEvents();
 	}
@@ -8,11 +12,9 @@ class Sockets {
 	socketEvents() {
 		// On connection
 		this.io.on("connection", (socket) => {
-			// Listen event: message-to-server
-			socket.on("message-to-server", (data) => {
-				console.log(data);
-				this.io.emit("message-from-server", data);
-			});
+			console.log("Client connected");
+			// Emit all the current bands to connected client
+			socket.emit("current-bands", this.bandList.getBands());
 		});
 	}
 }
