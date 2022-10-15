@@ -14,6 +14,7 @@ const connectSockerServer = () => {
 function App() {
 	const [socket] = useState(connectSockerServer());
 	const [online, setOnline] = useState(false);
+	const [bands, setBands] = useState([]);
 
 	useEffect(() => {
 		setOnline(socket.connected);
@@ -28,6 +29,12 @@ function App() {
 	useEffect(() => {
 		socket.on("disconnect", () => {
 			setOnline(false);
+		});
+	}, [socket]);
+
+	useEffect(() => {
+		socket.on("current-bands", (bands) => {
+			setBands(bands);
 		});
 	}, [socket]);
 
@@ -49,7 +56,7 @@ function App() {
 
 			<div className="row">
 				<div className="col-8">
-					<BandList />
+					<BandList data={bands} />
 				</div>
 
 				<div className="col-4">

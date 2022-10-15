@@ -1,23 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export const BandList = () => {
+export const BandList = ({ data }) => {
+	const [bands, setBands] = useState(data);
+
+	useEffect(() => {
+		setBands(data);
+	}, [data]);
+
 	const createRows = () => {
-		return (
-			<tr>
+		return bands.map((band) => (
+			<tr key={band.id}>
 				<td>
 					<button className="btn btn-primary">+1</button>
 				</td>
 				<td>
-					<input className="form-control" />
+					<input value={band.name} className="form-control" />
 				</td>
 				<td>
-					<h3>15</h3>
+					<p>15</p>
 				</td>
 				<td>
 					<button className="btn btn-danger">Delete</button>
 				</td>
 			</tr>
-		);
+		));
 	};
 
 	return (
