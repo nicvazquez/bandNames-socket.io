@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export const BandList = ({ data, vote, removeBand }) => {
+export const BandList = ({ data, vote, removeBand, changeBandName }) => {
 	const [bands, setBands] = useState(data);
 
 	useEffect(() => {
@@ -19,7 +19,9 @@ export const BandList = ({ data, vote, removeBand }) => {
 		);
 	};
 
-	const onLostFocus = (id, name) => {};
+	const onLostFocus = (id, name) => {
+		changeBandName(id, name);
+	};
 
 	const createRows = () => {
 		return bands.map((band) => (
